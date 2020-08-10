@@ -1,0 +1,277 @@
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- stylesheets -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin="" />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <link rel="stylesheet" href="styles/style.css">
+  <link rel="stylesheet" href="https://ppete2.github.io/Leaflet.PolylineMeasure/Leaflet.PolylineMeasure.css" />
+
+  <!-- draw map -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.css" />
+
+  <!-- <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css"> -->
+
+  <!-- icons -->
+  <!-- <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/1.5.2/css/ionicons.min.css">
+  <link rel="stylesheet" href="css/leaflet.awesome-markers.css"> -->
+
+  <title>jQuery + AJAX + PHP</title>
+</head>
+
+<!-- preloader -->
+
+<body>
+  <div id="preloaderContainer">
+    <div id="preloader">&nbsp;</div>
+  </div>
+
+
+  <section id="top">
+    <!-- Search Bar -->
+    <nav id="nav-bar">
+      <form autocomplete="off" action="" method="post" id="mySearchForm">
+        <div class="autocomplete">
+          <input id="myInput" type="text" name="myCountry" placeholder="Type country or click map">
+        </div>
+        <input class="submitButton" type="submit" value="Search">
+      </form>
+    </nav>
+    <!-- map -->
+    <div id="map"></div>
+  </section>
+
+  <!-- main info container -->
+  <section id="content">
+    <div class="card-group infoContainer" id="firstContainer">
+      <h2 class="NoCapitalInfo"></h2>
+      <div class="left" id="capitalInfo">
+        <div class="table-responsive">
+          <table class="table">
+            <tr>
+              <th colspan="2">
+                <h2 class="location"></h2>
+              </th>
+            </tr>
+            <tr>
+              <th>
+                <h5>Latitude</h3>
+              </th>
+              <td>
+                <h6 class="latitude"></h6>
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <h5>Longitude</h3>
+              </th>
+              <td>
+                <h6 class="longitude">
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <h5>Sunrise</h3>
+              </th>
+              <td>
+                <h6 class="sunrise">
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <h5>Sunset</h3>
+              </th>
+              <td>
+                <h6 class="sunset">
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <h5>Local time</h3>
+              </th>
+              <td>
+                <h6 class="localTime">
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <h5>Local date</h3>
+              </th>
+              <td>
+                <h6 class="localDate">
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <div class="right" id="weatherInfo">
+        <div id="carouselExampleControls" class="carousel slide" data-interval="false">
+          <div class="carousel-inner">
+            <div class="carousel-item active">
+              <div id="weatherDescritptionToday">
+                <h2 class=weather>Now</h2>
+                <div id=weatherImageToday></div>
+                <div id="weatherMainToday">
+                  <p id=temperatureToday></p>
+                  <p id=weatherDescriptionHeaderToday></p>
+                </div>
+                <hr>
+                <p id=windSpeedToday></p>
+                <p id=pressureToday></p>
+                <p id=humidityToday></p>
+              </div>
+            </div>
+            <div class="carousel-item">
+              <div id="weatherDescriptionDay1">
+                <h2 class=weather>Tomorrow</h2>
+                <div id=weatherImageDay1 class="card-img-top"></div>
+                <div id="weatherMainDay1">
+                  <p id=temperatureDay1></p>
+                  <p id=weatherDescriptionHeaderDay1></p>
+                </div>
+                <hr>
+                <p id=windSpeedDay1></p>
+                <p id=pressureDay1></p>
+                <p id=humidityDay1></p>
+              </div>
+            </div>
+            <div class="carousel-item">
+              <div id="weatherDescritptionDay2">
+                <h2 class=weather>After Tomorrow</h2>
+                <div id=weatherImageDay2 class="card-img-top"></div>
+                <div id="weatherMainDay2">
+                  <p id=temperatureDay2></p>
+                  <p id=weatherDescriptionHeaderDay2></p>
+                </div>
+                <hr>
+                <p id=windSpeedDay2></p>
+                <p id=pressureDay2></p>
+                <p id=humidityDay2></p>
+              </div>
+            </div>
+          </div>
+          <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <!-- <span class="sr-only">Previous</span> -->
+          </a>
+          <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <!-- <span class="sr-only">Next</span> -->
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="card-group infoContainer">
+      <div class="left">
+        <div class="table-responsive">
+          <table class="table">
+            <tbody>
+              <tr>
+                <th>
+                  <h2>Country</h2>
+                </th>
+                <td><h6 class="country"></h6></td>
+              </tr>
+              <tr>
+                <th>
+                  <h5>Continent</h3>
+                </th>
+                <td><h6 class="continent"></h6></td>
+              </tr>
+              <tr>
+                <th>
+                  <h5>Flag</h3>
+                </th>
+                <td class="flag">
+                  <img class="flagImage" />
+                </td>
+              </tr>
+              <tr>
+                <th>
+                  <h5>Calling Code</h3>
+                </th>
+                <td><h6 class="callingCode"></h6></td>
+              </tr>
+              <tr>
+                <th>
+                  <h5>Area</h3>
+                </th>
+                <td><h6 class="area"</h6></td>
+              </tr>
+              <tr>
+                <th>
+                  <h5>Population</h3>
+                </th>
+                <td><h6 class="population"></h6></td>
+              </tr>
+              <tr>
+                <th>
+                  <h5>Languages</h3>
+                </th>
+                <td><h6 class="languages"></h6></td>
+              </tr>
+          </table>
+        </div>
+      </div>
+      <div class="right">
+        <div class="table-responsive">
+          <table class="table">
+            <tr>
+              <th>
+                <h5>Currency</h5>
+              </th>
+              <td>
+                <h6 class="currencyName"></h6>
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <h5>Currency Code</h3>
+              </th>
+              <td>
+                <h6 class="currencyCode"></h6>
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <h5>Currency Symbol</h3>
+              </th>
+              <td>
+                <h6 class="currencySymbol"></h6>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div id="currencyExchangeContainer">
+          <div class="currencyExchange"><a href="https://www.exchangeratewidget.com/" rel="nofollow">Currency Converter</a></div>
+          <script type="text/javascript" src="//www.exchangeratewidget.com/converter.php?l=en&f=USD&t=EUR&a=1&d=EBECF1&n=FFFFFF&o=000000&v=1"></script>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Font -->
+  <link href="https://fonts.googleapis.com/css?family=Merriweather|Montserrat|Ubuntu&display=swap" rel="stylesheet">
+  <!-- Bootstrap scripts -->
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+  <!-- map & jquery scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js" integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew==" crossorigin=""></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.js"></script>
+  <script src="https://ppete2.github.io/Leaflet.PolylineMeasure/Leaflet.PolylineMeasure.js"></script>
+
+  <!-- <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/" charset="utf-8"></script>
+  <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js" charset="utf-8"></script> -->
+
+  <!-- my scripts -->
+  <script src="js/borders.js" charset="utf-8"></script>
+  <script src="js/countries.js" charset="utf-8"></script>
+  <script src="js/app.js" charset="utf-8"></script>
+  <script src="js/leaflet.js" charset="utf-8"></script>
+</body>
+
+</html>

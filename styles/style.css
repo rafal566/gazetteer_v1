@@ -1,0 +1,362 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: #ebecf1;
+  /* font-family: 'Montserrat', sans-serif; */
+  font-size: 1em;
+}
+
+h2, h5 {
+  font-family: 'Montserrat', sans-serif;
+  color: #fffffd;
+}
+
+h2 {
+  font-size: 2em;
+  font-weight: bold;
+}
+
+h5 {
+  font-weight: bolder;
+  font-size: 1.2em;
+}
+
+h6 {
+  font-family: 'Ubuntu', sans-serif;
+  margin-bottom: 0;
+  font-size: 1.1em;
+}
+
+p {
+  font-family: 'Ubuntu', sans-serif;
+  font-size: 1.2em;
+}
+
+/* preloader */
+#preloaderContainer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #fff;
+  /* change if the mask should have another color then white */
+  z-index: 99;
+  /* makes sure it stays on top */
+}
+
+#preloader {
+  width: 200px;
+  height: 200px;
+  position: absolute;
+  left: 50%;
+  /* centers the loading animation horizontally one the screen */
+  top: 50%;
+  /* centers the loading animation vertically one the screen */
+  background-image: url("./pictures/preloader.svg");
+  /* path to your loading animation */
+  background-repeat: no-repeat;
+  background-position: center;
+  margin: -100px 0 0 -100px;
+  /* is width and height divided by two */
+}
+
+/*search box */
+#nav-bar {
+  width: 78%;
+  padding-left: 5%;
+  padding-top: 15px;
+}
+
+.autocomplete {
+  position: relative;
+  display: inline-block;
+  width: 65%;
+}
+
+input {
+  border: 2px solid #1b262c;
+  padding: 5px;
+  font-size: 14px;
+  color: #1b262c;
+  font-family: 'Montserrat', sans-serif;
+}
+
+input[type=text] {
+  background-color: #f1f1f1;
+  width: 100%;
+}
+
+input[type=submit] {
+  width: 60px;
+  font-weight: bolder;
+  background-color: #00bcd4;
+  color: #f1f1f1;
+  cursor: pointer;
+}
+
+.autocomplete-items {
+  font-family: 'Montserrat', sans-serif;
+  color: black;
+  position: absolute;
+  border: 1px solid #00bcd4;
+  border-bottom: none;
+  border-top: none;
+  z-index: 99;
+  top: 100%;
+  left: 0;
+  right: 0;
+}
+
+.autocomplete-items div {
+  padding: 10px;
+  cursor: pointer;
+  background-color: #eeeeee;
+  border-bottom: 1px solid #00bcd4;
+}
+
+.autocomplete-items div:hover {
+  /*when hovering an item:*/
+  background-color: #00bcd4;
+  color: #eeeeee;
+}
+
+.autocomplete-active {
+  /*when navigating through the items using the arrow keys:*/
+  background-color: #00bcd4 !important;
+  color: #eeeeee;
+}
+
+a:hover {
+  color: #00bcd4;
+}
+
+/* map box */
+#map {
+  height: 550px;
+  width: 90%;
+  margin: 20px auto;
+  z-index: 1;
+  border-radius: 20px;
+}
+
+#content {
+  position: relative;
+}
+
+.weather {
+  padding-top: 10px;
+}
+
+.NoCapitalInfo {
+  text-align: center;
+  background-color: #00bcd4;
+  font-family: 'Montserrat', sans-serif;
+  color: #fffffd;
+  margin: 20px auto;
+  padding: 15px;
+}
+
+/* info container */
+.infoContainer {
+  width: 90%;
+  margin: 0px auto;
+  text-align: center
+}
+
+.card-group {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-flow: row wrap;
+  flex-flow: row wrap;
+}
+
+.left, .right {
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  flex: 1 1 0%;
+  margin-bottom: 50px;
+  background-color: #00bcd4;
+  opacity: 1;
+  border-radius: 10px;
+  text-align: center;
+  border: 0;
+}
+
+.left {
+  margin-right: 30px;
+}
+
+.right {
+  margin-left: 30px;
+}
+
+.table-responsive {
+  width: 80%;
+  margin: auto auto;
+  text-align: center;
+}
+
+#carouselExampleSlidesOnly {
+  margin: auto 5px;
+}
+
+.table, td, th {
+  margin-bottom: 0;
+  vertical-align: middle !important;
+}
+
+th, td, .left, .right {
+  color: #eeeeee;
+}
+
+tr:first-child>th, tr:first-child>td {
+  border-top-width: 0;
+  margin: auto auto;
+}
+
+tr:first-child>th>h2 {
+  margin: auto;
+}
+
+.table h2, .table h5 {
+  margin-bottom: 0;
+}
+
+hr {
+  margin: 0 45% 16px 45%;
+  border-style: none;
+  border-top-style: dotted;
+  border-color: #eeeeee;
+  border-width: 5px;
+  /* width: 50%; */
+}
+
+.leaflet-popup-content-wrapper {
+  background-color: #d8f1f7;
+  text-align: center;
+  opacity: 0.9;
+  /* border-radius: 12px; */
+}
+
+.leaflet-popup-tip {
+  background-color: #d8f1f7;
+  opacity: 0.9;
+}
+
+.leaflet-container a.leaflet-popup-close-button {
+  color: #e89191;
+}
+
+#currencyExchangeContainer {
+  margin: 10px auto;
+  width: 198px;
+  border: 2px solid #d8f1f7;
+  border-radius: 5px;
+}
+
+.currencyExchange {
+  text-align: center;
+  background-color: #00BCD4;
+  width: 100%;
+  /* font-size:13px; */
+  font-weight: bold;
+  height: 18px;
+  padding-bottom: 30px;
+  border-radius: 5px 5px 0 0;
+}
+
+a {
+  color: #FFFFFF;
+  text-decoration: none;
+}
+
+#result {
+  color: black;
+}
+
+@media (min-width: 1550px) {
+  #map {
+    height: 900px;
+  }
+  #content {
+    display: flex;
+    width: 90%;
+    margin: auto;
+  }
+
+  #firstContainer {
+    margin-right: 20px;
+  }
+
+  .card-group, {
+    display: inline-flex;
+  }
+
+  .infoContainer {
+    width: 100%;
+  }
+
+  .right {
+    margin-left: 20px;
+  }
+
+  .left {
+    margin-right: 0;
+  }
+}
+
+@media (max-width: 725px) {
+  #top {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    opacity: 1;
+    background-color: #ebecf1;
+    padding-bottom: 15px;
+  }
+
+  input {
+    font-size: 12px;
+  }
+
+  input[type=text] {
+    font-size: 12px;
+  }
+
+  #nav-bar {
+    width: 90%;
+    padding-left: 8%;
+  }
+
+  #map {
+    height: 400px;
+    width: 85%;
+  }
+
+  .infoContainer {
+    width: 85%;
+  }
+
+  .left, .right {
+    min-width: 62%;
+    margin-bottom: 20px;
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  h2 {
+    font-size: 1.5em;
+    font-weight: bold;
+  }
+
+  h5 {
+    font-weight: bolder;
+    font-size: 0.9em;
+  }
+}
