@@ -122,7 +122,7 @@ function getWikiInfo (countryName) {
       // console.log(data);
       let wikiLink = (data['results'][0]['link']);
       console.log(wikiLink);
-      $("a").attr("href", "https://" + wikiLink);
+      $(".wikiLink").attr("href", "https://" + wikiLink);
       }
   });
 }
