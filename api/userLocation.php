@@ -8,7 +8,7 @@ header('Content-Type: application/json; charset=UTF-8');
 $username = "rafal566";
 $lat=$_REQUEST['lat'];
 $lng=$_REQUEST['lng'];
-// data: 'lat=' + latitude + '&lng=' + longitude,
+
 $curl = curl_init('http://api.geonames.org/findNearbyPlaceNameJSON?lat=' . urlencode($lat) . '&lng=' . urlencode($lng) . '&username=' . $username);
 
   curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-Type: text/plain; charset=UTF-8'));
@@ -16,8 +16,21 @@ $curl = curl_init('http://api.geonames.org/findNearbyPlaceNameJSON?lat=' . urlen
   curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
   curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 
-  $result = curl_exec($curl);
+  $json_result = curl_exec($curl);
 
-  echo(json_encode($result, true));
+  $searchResult = [];
+  $searchResult['results'] = [];
+  $temp = [];
+
+  $r = json_decode($json_result, true);
+  $result = $r['geonames'][0];
+
+  $temp['countryCode'] = $result['countryCode'];
+  $temp['locationName'] = $result['name'];
+  $temp['adminName'] = $result['adminName1'];
+  array_push($searchResult['results'], $temp);
+
+  header('Content-Type: application/json; charset=UTF-8');
+  echo json_encode($searchResult, JSON_UNESCAPED_UNICODE);
 
 ?>
