@@ -1,4 +1,4 @@
-//jshint esversion:6
+﻿//jshint esversion:6
 const countriesObj = {
   'Afghanistan': 'AF',
   'Albania': 'AL',
@@ -115,11 +115,11 @@ const countriesObj = {
   'Kazakhstan': 'KZ',
   'Kenya': 'KE',
   'Kiribati': 'KI',
-  "Korea, Democratic Peoples Republic of": 'KP',
+  "Korea, Democratic People's Republic of": 'KP',
   'Korea, Republic of': 'KR',
   'Kuwait': 'KW',
   'Kyrgyzstan': 'KG',
-  "Lao Peoples Democratic Republic": 'LA',
+  "Lao People's Democratic Republic": 'LA',
   'Latvia': 'LV',
   'Lebanon': 'LB',
   'Lesotho': 'LS',
@@ -222,7 +222,7 @@ const countriesObj = {
   'Thailand': 'TH',
   'Timor-Leste': 'TL',
   'Togo': 'TG',
-  'Tokelau': 'TK',
+  // 'Tokelau': 'TK',
   'Tonga': 'TO',
   'Trinidad and Tobago': 'TT',
   'Tunisia': 'TN',

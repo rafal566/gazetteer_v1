@@ -10,31 +10,25 @@ let streets = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{
   accessToken: 'pk.eyJ1IjoicmFmYWw1NjYiLCJhIjoiY2tkMnZ4YmJoMDB0bzJ5cW14MG9sdHNmciJ9.8yadfFy8Zt4HqcZh6-Ds8A',
   // pane: "pane"
 });
-let outdoors = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
-  attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-  maxZoom: 20,
-  id: 'mapbox/outdoors-v11',
-  tileSize: 512,
-  zoomOffset: -1,
-  accessToken: 'pk.eyJ1IjoicmFmYWw1NjYiLCJhIjoiY2tkMnZ4YmJoMDB0bzJ5cW14MG9sdHNmciJ9.8yadfFy8Zt4HqcZh6-Ds8A',
 
-});
 let topoMap = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
   maxZoom: 20,
   attribution: 'Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)',
-
 });
-let cicleMap = L.tileLayer('https://tile.thunderforest.com/cycle/{z}/{x}/{y}.png?apikey=ede7d0eb172c4d45946a59e4880395e6', {
-	attribution: '&copy; <a href="http://www.thunderforest.com/">Thunderforest</a>, &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-	maxZoom: 20,
 
+let cicleMap = L.tileLayer('https://tile.thunderforest.com/cycle/{z}/{x}/{y}.png?apikey=ede7d0eb172c4d45946a59e4880395e6', {
+  attribution: '&copy; <a href="http://www.thunderforest.com/">Thunderforest</a>, &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+  maxZoom: 20,
 });
 
 let mymap = L.map('map', {
-  layers: [cicleMap, topoMap, outdoors, streets],
-}).setView([0, 0], 2);
-// initiateMap();
-$(".content").hide();
+  layers: [cicleMap, topoMap, streets],
+  center: [0, 0],
+  zoomControl: true,
+  minZoom: 1,
+  maxZoom: 20,
+  bounceAtZoomLimits: false,
+}).fitWorld();
 
 
 //customized icon
@@ -56,99 +50,29 @@ let locationIcon = L.icon({
 //geoJSON
 let geojson;
 let geojsonLayer = L.geoJson().addTo(mymap);
-geojsonLayer.addData(geoObject);
 
-function style(feature) {
-  return {
-    fillColor: "#ebecf1",
-    weight: 1,
-    opacity: 0.3,
-    color: 'white',
-    fillOpacity: 0.1,
-  };
-}
-L.geoJSON(geoObject, {
-  style: style,
-}).addTo(mymap);
-
-geojson = L.geoJson(geoObject, {
-  style: style,
-  onEachFeature: onEachFeature
-}).addTo(mymap);
+let style = {
+  // fillColor: "#ebecf1",
+  weight: 2,
+  opacity: 0.3,
+  color: '#b52b65',
+  fillOpacity: 0,
+};
 
 
-function onEachFeature(feature, layer) {
-  layer.on({
-    click: zoomToFeature,
-    mouseenter: onCountryEnter,
-    mouseleave: onCountryLeave,
-    // mouseover: onCountryHighLight,
-    // mouseout: onCountryMouseOut
-  });
-}
-
-
-function onCountryEnter(e) {
-  let layer = e.target;
-  layer.setStyle({
-    weight: 3,
-    color: 'red',
-    opacity: 0.3
-  });
-}
-
-function onCountryLeave(e) {
-    geojson.resetStyle(e.target);
-}
-
-let prevLayerClicked = null;
-function zoomToFeature(e) {
-  let countryName = e.target.feature.properties.NAME;
-  // console.log("country name click: " + countryName);
-  let countryCode = e.target.feature.properties.ISO2;
-  // console.log("country code click: " + countryCode);
-  getCountryCode(countryName);
-  if (prevLayerClicked !== null) {
-      prevLayerClicked.setStyle({
-      fillColor: "#ebecf1",
-      weight: 1,
-      opacity: 0.3,
-      color: 'white',
-      fillOpacity: 0.1
-    });
+function getCountryShape(countryCode) {
+  for (let i = 0; i <= ((geoObject.features).length - 1); i++) {
+    if (geoObject.features[i].properties.ISO2 == countryCode) {
+      // console.log(geoObject.features[i].properties.ISO2);
+      // console.log(geoObject.features[i])
+      mymap.removeLayer(geojsonLayer);
+      geojsonLayer = L.geoJson(geoObject.features[i], {
+        style: style
+      }).addTo(mymap);
+      geojsonLayer.addData(geoObject.features[i]);
+    }
   }
-    // getCountryCode(countryName);
-  let layer = e.target;
-  layer.setStyle({
-    weight: 3,
-    color: 'red',
-    opacity: 0.3
-  });
-  if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
-    layer.bringToFront();
-  }
-  prevLayerClicked = layer;
 }
-
-// function onCountryHighLight(e) {
-//   let layer = e.target;
-//   layer.setStyle({
-//     weight: 3,
-//     color: 'yellow',
-//     opacity: 0.3
-//   });
-// }
-//
-// function onCountryMouseOut(e) {
-//   let layer = e.target;
-//   layer.setStyle({
-//     fillColor: "#ebecf1",
-//     weight: 1,
-//     opacity: 0.3,
-//     color: 'white',
-//     fillOpacity: 0.1
-//   });
-// }
 
 
 //measurements
@@ -218,7 +142,7 @@ let drawControl = new L.Control.Draw({
   draw: {
     polygon: {
       shapeOptions: {
-      color: 'purple',
+        color: 'purple',
       },
       allowIntersection: false,
       drawError: {
@@ -230,7 +154,7 @@ let drawControl = new L.Control.Draw({
     polyline: {
       zIndexOffset: 999,
       shapeOptions: {
-      color: 'red',
+        color: 'red',
       },
     },
     rectangle: {
@@ -245,10 +169,12 @@ let drawControl = new L.Control.Draw({
     },
     marker: {
       icon: locationIcon,
+      edit: false,
     },
   },
   edit: {
-    featureGroup: drawnItems
+    featureGroup: drawnItems,
+    edit: false,
   }
 });
 mymap.addControl(drawControl);
@@ -256,16 +182,15 @@ mymap.addControl(drawControl);
 mymap.on('draw:created', function(e) {
   let type = e.layerType,
     layer = e.layer;
-    if (type === 'circle') {
-     let area = 0;
-     let radius = e.layer.getRadius();
-     area = (Math.PI) * (radius * radius);
-     let circle = L.circle();
-     let theCenterPt = layer.getLatLng();
-     let center = [theCenterPt.lng, theCenterPt.lat];
-     let theRadius = layer.getRadius().toString();
-     layer.bindPopup("Area: " + Math.round(area / 1000000) + " km<sup>2</sup></br> Radius: " + Math.round(theRadius / 1000) + " km").openPopup();
-     // e.layer.openPopup();
+  if (type === 'circle') {
+    let area = 0;
+    let radius = e.layer.getRadius();
+    area = (Math.PI) * (radius * radius);
+    let circle = L.circle();
+    let theCenterPt = layer.getLatLng();
+    let center = [theCenterPt.lng, theCenterPt.lat];
+    let theRadius = layer.getRadius().toString();
+    layer.bindPopup("Area: " + Math.round(area / 1000000) + " km<sup>2</sup></br> Radius: " + Math.round(theRadius / 1000) + " km").openPopup();
   }
 
   if (type === 'rectangle' || type === 'polygon') {
@@ -284,29 +209,28 @@ mymap.on('draw:created', function(e) {
   }
 
   drawnItems.addLayer(layer);
-  // layer.bringToFront();
 
   if (type === 'marker') {
-      let marker = new L.featureGroup();
-      marker.addLayer(layer);
-        let markerLatLng = (layer.getLatLng());
-        let latitude = markerLatLng.lat;
-        let longitude = markerLatLng.lng;
-        layer.bindPopup('Latitude:' + Math.floor(latitude * 1000) / 1000 + "</br> Longitude: " + Math.floor(longitude * 10000) / 10000).openPopup();
-      }
+    let marker = new L.featureGroup();
+    marker.addLayer(layer);
+    let markerLatLng = (layer.getLatLng());
+    let latitude = markerLatLng.lat;
+    let longitude = markerLatLng.lng;
+    layer.bindPopup('Latitude:' + Math.floor(latitude * 1000) / 1000 + "</br> Longitude: " + Math.floor(longitude * 10000) / 10000).openPopup();
+  }
 });
 
 //Layers control
 let baseMaps = {
   "Cicle": cicleMap,
-  "Outdoor": outdoors,
   "topo": topoMap,
   "Streets": streets,
 };
 
 let overlayMaps = {
   "hide draw": drawnItems,
-  "1-click search": geojson
 };
 
-L.control.layers(baseMaps, overlayMaps).addTo(mymap);
+L.control.layers(baseMaps, overlayMaps, {
+  position: 'topleft',
+}).addTo(mymap);
